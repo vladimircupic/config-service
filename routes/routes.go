@@ -29,5 +29,8 @@ func SetupRoutes(router *gin.Engine) {
 		groups.POST("/:name/:version/configurations", handlers.AddConfigurationToGroup)
 
 		groups.DELETE("/:name/:version/configurations/:configName/:configVersion", handlers.RemoveConfigurationFromGroup)
+
+		//Labeli
+		groups.GET("/:name/:version/filter", handlers.FilterConfigurationsByLabels)
 	}
 }

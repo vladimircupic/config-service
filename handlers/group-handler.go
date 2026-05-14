@@ -162,3 +162,38 @@ func RemoveConfigurationFromGroup(c *gin.Context) {
 		"error": "Group not found",
 	})
 }
+
+// Labeli pretraga
+func FilterConfigurationsByLabels(c *gin.Context) {
+
+	groupName := c.Param("name")
+	groupVersion := c.Param("version")
+
+	labelKey := c.Query("key")
+	labelValue := c.Query("value")
+
+	for _, group := range storage.Groups {
+
+		if group.Name == groupName &&
+			group.Version == groupVersion {
+
+			var filtered []models.GroupConfiguration
+
+			for _, config := range group.Configurations {
+
+				if value, exists := config.Labels[labelKey]; exists && value == labelValue {
+
+					filtered = append(filtered, config)
+				}
+			}
+
+			c.JSON(http.StatusOK, filtered)
+
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{
+		"error": "Group not found",
+	})
+}

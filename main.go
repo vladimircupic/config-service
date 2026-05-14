@@ -11,11 +11,14 @@ import (
 	"config-service/routes"
 
 	"github.com/gin-gonic/gin"
+
+	"config-service/middleware"
 )
 
 func main() {
 
 	router := gin.Default()
+	router.Use(middleware.RateLimiter())
 
 	routes.SetupRoutes(router)
 
