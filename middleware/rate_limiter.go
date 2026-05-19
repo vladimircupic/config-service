@@ -45,7 +45,7 @@ func RateLimiter() gin.HandlerFunc {
 			}
 		}
 
-		if clients[ip].requests > 5 {
+		if clients[ip].requests > 20 {
 
 			mutex.Unlock()
 
