@@ -108,6 +108,19 @@ func AddConfigurationToGroup(c *gin.Context) {
 		if group.Name == groupName &&
 			group.Version == groupVersion {
 
+			for _, existing := range group.Configurations {
+
+				if existing.Configuration.Name == newConfig.Configuration.Name &&
+					existing.Configuration.Version == newConfig.Configuration.Version {
+
+					c.JSON(http.StatusConflict, gin.H{
+						"error": "Configuration already exists in group",
+					})
+
+					return
+				}
+			}
+
 			group.Configurations = append(group.Configurations, newConfig)
 
 			storage.Groups[id] = group
